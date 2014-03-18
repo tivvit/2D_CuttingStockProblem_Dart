@@ -1,0 +1,4 @@
+name: KO_2D_CuttingStock
+description: A sample web application
+dependencies:
+  browser: any
