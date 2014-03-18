@@ -27,7 +27,7 @@ void reverseText(MouseEvent event) {
       
   for(int i = 0; i < rog.ObjectStorage.length-1;i++){
     var go = rog.ObjectStorage.elementAt(i);
-    go.draw(ch.context, width);
-    width += go.a + 5;
-  }  
+    go.draw(ch.context, width, 5);
+    width += go.size + 5;
+  }
 }

@@ -6,8 +6,10 @@ class Square implements GraphicalObject {
   
   Square(this.a);
   
-  void draw (var context, int pos) {
-    context.rect(pos, 5, a, a);
+  get size => a;
+  
+  void draw(var context, int xpos, int ypos) {
+    context.rect(xpos, ypos, a, a);
                         context.fillStyle = 'green';
                         context.fill();
                         //context.lineWidth = 1;

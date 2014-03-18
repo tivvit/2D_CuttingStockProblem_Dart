@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'Square.dart';
+import 'GraphicalObjects/Square.dart';
+import 'GraphicalObjects/Circle.dart';
 
 class RandomObjectGenerator {
   static int _maxSize = 50;
@@ -14,14 +15,27 @@ class RandomObjectGenerator {
     
     var rng = new Random();
     
-    for(int i = 0; i < _minObjects + rng.nextInt(_maxObjects - _minObjects); i++){
+    for(int i = 0; i < RandomInt(_minObjects, _maxObjects); i++){
       ObjectStorage.add(generateSquare());
+    }
+    
+    for(int i = 0; i <  RandomInt(_minObjects, _maxObjects); i++){
+      ObjectStorage.add(generateCircle());
     }
   }
   
   Square generateSquare() {
-    var rng = new Random();
-    int size = _minSize + rng.nextInt(_maxSize - _minSize);
+    int size = RandomInt(_minSize, _maxSize);
     return new Square(size);
+  }
+  
+  Circle generateCircle() {
+    int r = RandomInt(_minSize, _maxSize);
+    return new Circle(r);
+  }
+  
+  int RandomInt(int min, int max) {
+    var rng = new Random();
+    return min + rng.nextInt(max - min);
   }
 }
