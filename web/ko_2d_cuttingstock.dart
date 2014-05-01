@@ -3,6 +3,7 @@ import 'dart:math' as Math;
 
 import 'lib/RandomObjectGenerator.dart';
 import 'lib/CanvasHelper.dart';
+import 'lib/CuttingStock/CuttingStock.dart';
 
 void main() {
   querySelector("#sample_text_id")
@@ -45,4 +46,11 @@ void reverseText(MouseEvent event) {
     go.draw(ch.context, width, height);
     width += go.width + offset;
   }
+  
+  CanvasHelper csCanvas = new CanvasHelper('#cuttingStock');
+  csCanvas.clear();
+  
+  CuttingStock cs = new CuttingStock();
+  cs.addObjects(rog.ObjectStorage);
+  cs.draw(csCanvas);
 }

@@ -1,6 +1,7 @@
 library Graphics;
 
 import 'dart:math' as Math;
+import 'dart:html';
 
 part "GraphicalObject/GraphicalObject.dart";
 part "GraphicalObject/Circle.dart";

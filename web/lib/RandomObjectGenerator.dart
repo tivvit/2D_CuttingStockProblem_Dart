@@ -45,7 +45,7 @@ class RandomObjectGenerator {
     }
   
   GR.Circle generateCircle() {
-    int r = RandomInt(_minSize, _maxSize);
+    int r = (RandomInt(_minSize, _maxSize)/2).round();
     return new GR.Circle(r);
   }
   

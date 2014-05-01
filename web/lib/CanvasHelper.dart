@@ -4,9 +4,10 @@ import 'dart:html';
 
 class CanvasHelper {
   CanvasRenderingContext2D context;
+  CanvasElement canvas;
   
   CanvasHelper(String element) {
-    CanvasElement canvas = querySelector(element);
+    canvas = querySelector(element);
     context = canvas.getContext('2d');
   }
   
