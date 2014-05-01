@@ -6,7 +6,8 @@ class Square implements GraphicalObject {
   
   Square(this.a);
   
-  get size => a;
+  get width => a;
+  get height => width;
   
   void draw(var context, int xpos, int ypos) {
     context.fillStyle = 'green';
@@ -14,6 +15,6 @@ class Square implements GraphicalObject {
   }
   
   String toString() {
-    return "Strana čtverce je: "+a.toString();
+    return "Square:"+a.toString();
   }
 }

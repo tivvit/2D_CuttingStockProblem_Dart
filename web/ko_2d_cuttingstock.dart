@@ -40,9 +40,9 @@ void reverseText(MouseEvent event) {
       last = go.name;
     }
     
-    max = Math.max(max, go.size); 
+    max = Math.max(max, go.height); 
    
     go.draw(ch.context, width, height);
-    width += go.size + offset;
+    width += go.width + offset;
   }
 }

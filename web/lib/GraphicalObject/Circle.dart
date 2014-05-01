@@ -17,9 +17,10 @@ class Circle implements GraphicalObject {
     context.closePath();
   }
   
-  get size => 2*r;
+  get width => 2*r;
+  get height => width;
   
   String toString() {
-    return "Poloměr kruhu je: "+r.toString();
+    return "Circle:"+r.toString();
   }
 }

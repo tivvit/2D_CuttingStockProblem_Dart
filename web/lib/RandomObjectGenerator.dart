@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'Graphics.dart';
+import 'Graphics.dart' as GR;
 
 class RandomObjectGenerator {
   static int _maxSize = 50;
@@ -25,25 +25,35 @@ class RandomObjectGenerator {
     for(int i = 0; i <  RandomInt(_minObjects, _maxObjects); i++){
       ObjectStorage.add(generateTriangle());
     }
+    
+    for(int i = 0; i <  RandomInt(_minObjects, _maxObjects); i++){
+      ObjectStorage.add(generateRectangle());
+    }
   }
   
   
   //Object Factory
-  Square generateSquare() {
+  GR.Square generateSquare() {
     int size = RandomInt(_minSize, _maxSize);
-    return new Square(size);
+    return new GR.Square(size);
   }
   
-  Circle generateCircle() {
+  GR.Rectangle generateRectangle() {
+      int a = RandomInt(_minSize, _maxSize);
+      int b = RandomInt(_minSize, _maxSize);
+      return new GR.Rectangle(a, b);
+    }
+  
+  GR.Circle generateCircle() {
     int r = RandomInt(_minSize, _maxSize);
-    return new Circle(r);
+    return new GR.Circle(r);
   }
   
-  Triangle generateTriangle() {
+  GR.Triangle generateTriangle() {
       int a = RandomInt(_minSize, _maxSize);
       int b = RandomInt(_minSize, _maxSize);
       int c = RandomInt(_minSize, a+b); //a+b to satisfy triangle nonquality
-      return new Triangle(a,b,c);
+      return new GR.Triangle(a,b,c);
   }
   
   int RandomInt(int min, int max) {

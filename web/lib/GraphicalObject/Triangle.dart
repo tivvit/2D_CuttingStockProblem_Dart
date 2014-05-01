@@ -3,17 +3,17 @@ part of Graphics;
 class Triangle implements GraphicalObject {
   String name = "Triangle";
   int a,b,c;
+  double v;
   
   Triangle(this.a, this.b, this.c) {
     List sides = _getSortedSides();
     a = sides[0];
     b = sides[1];
     c = sides[2];
+    v = (c*b)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2));
   }
   
   void draw(var context, int xpos, int ypos) {
-    double v = (c*b)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2));
-    
     context.moveTo(xpos, ypos);
     context.fillStyle = '#E3E3E3';
     context.fillRect(xpos, ypos, a, v);
@@ -42,7 +42,8 @@ class Triangle implements GraphicalObject {
       return -1;
   }
   
-  get size => a;
+  get width => a;
+  get height => v.toInt();
   
   String toString() {
     return "Triangle: "+a.toString()+" "+b.toString()+" "+c.toString();
