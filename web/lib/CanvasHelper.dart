@@ -1,3 +1,5 @@
+library CanvasHelper;
+
 import 'dart:html';
 
 class CanvasHelper {

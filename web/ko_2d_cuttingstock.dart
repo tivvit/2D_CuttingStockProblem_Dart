@@ -1,6 +1,8 @@
 import 'dart:html';
-import 'RandomObjectGenerator.dart';
-import 'CanvasHelper.dart';
+import 'dart:math' as Math;
+
+import 'lib/RandomObjectGenerator.dart';
+import 'lib/CanvasHelper.dart';
 
 void main() {
   querySelector("#sample_text_id")
@@ -15,7 +17,8 @@ void reverseText(MouseEvent event) {
   RandomObjectGenerator rog = new RandomObjectGenerator();
   
   rog.ObjectStorage.forEach(
-      (elem) => buffer.write(elem.toString()+", ")
+      (elem) => buffer..write(elem.toString())
+                      ..write(", ")
   );
 
   querySelector("#sample_text_id").text = buffer.toString();
@@ -23,11 +26,23 @@ void reverseText(MouseEvent event) {
   CanvasHelper ch = new CanvasHelper('#canvas');
   ch.clear();
       
-  int width = 5;  
-      
+  int offset = 5, width = offset, height = offset, max = 0; 
+  String last;
+  
   for(int i = 0; i < rog.ObjectStorage.length-1;i++){
     var go = rog.ObjectStorage.elementAt(i);
-    go.draw(ch.context, width, 5);
-    width += go.size + 5;
+    //print(go.class.toString());
+    if(go.name != last) {
+      //print(max);
+      height += max+offset;
+      width = offset;
+      max = 0;
+      last = go.name;
+    }
+    
+    max = Math.max(max, go.size); 
+   
+    go.draw(ch.context, width, height);
+    width += go.size + offset;
   }
 }
