@@ -72,10 +72,13 @@ class CuttingStock {
                     spaces++;
                     currentHeight = 0; 
                     absoluteWidth += _width+offset;
-                    absoluteHeight = offset;
+                    if(absoluteWidth+_width > ch.canvas.width) {
+                      absoluteWidth = offset; 
+                      absoluteHeight = absoluteHeight+_height+offset; 
+                    }
                     _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
                     currentWidth = 0;
-                                max = 0;
+                    max = 0;
      }
       
       //canvas height solution
