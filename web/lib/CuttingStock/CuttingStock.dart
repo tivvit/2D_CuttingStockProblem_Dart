@@ -34,7 +34,7 @@ class CuttingStock {
     while(!queue.isEmpty) {   
       GR.GraphicalObject processed = queue.removeFirst();
       
-      if(processed.name == "Triangle" || processed.name == "Rectangle")
+      if(processed is GR.RotatableGraphicalObject) 
               processed.rotateLeft();
       
       if(currentWidth+processed.width >= width) {

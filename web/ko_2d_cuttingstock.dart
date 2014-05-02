@@ -6,12 +6,13 @@ import 'lib/CanvasHelper.dart';
 import 'lib/CuttingStock/CuttingStock.dart';
 
 void main() {
-  querySelector("#sample_text_id")
-      ..text = "Refresh!"
-      ..onClick.listen(reverseText);
+  createNewProblem();
+  
+  querySelector("#refresh")
+      ..onClick.listen(createNewProblem);
 }
 
-void reverseText(MouseEvent event) {
+void createNewProblem([MouseEvent event]) {
   var text = querySelector("#sample_text_id").text;
   var buffer = new StringBuffer();
   

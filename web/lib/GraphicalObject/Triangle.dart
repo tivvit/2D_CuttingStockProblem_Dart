@@ -1,6 +1,6 @@
 part of Graphics;
 
-class Triangle implements GraphicalObject {
+class Triangle implements RotatableGraphicalObject {
   String name = "Triangle";
   int a,b,c;
   double v;

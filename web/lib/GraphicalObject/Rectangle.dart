@@ -1,6 +1,6 @@
 part of Graphics;
 
-class Rectangle implements GraphicalObject {
+class Rectangle implements RotatableGraphicalObject {
   String name = "Rectangle";
   int a, b;
   bool rotated = false;
@@ -50,6 +50,6 @@ class Rectangle implements GraphicalObject {
   }
   
   String toString() {
-    return "rectangle(: "+a.toString()+","+b.toString()+")";
+    return "rectangle("+a.toString()+","+b.toString()+")";
   }
 }
