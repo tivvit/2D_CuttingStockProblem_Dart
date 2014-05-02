@@ -15,7 +15,6 @@ class Rectangle implements RotatableGraphicalObject {
   get height => !rotated ? b : a;
   
   void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]) {
-    context.fillStyle = objectColor;
     int ba = a, bb = b;
     if(bordered){
       ba--;
@@ -27,11 +26,16 @@ class Rectangle implements RotatableGraphicalObject {
       ba = bb;
       bb = tmp;
     }
-      
+    
+    if(bordered)
+      context.fillStyle = solutionColor;
+    else
+      context.fillStyle = objectColor;
     context.fillRect(xpos, ypos, ba, bb);
     if(bordered){
       context.beginPath();
       context.rect(xpos, ypos, ba, bb);
+      context.strokeStyle = border;
       context.stroke();
       context.closePath();
     }
@@ -40,6 +44,10 @@ class Rectangle implements RotatableGraphicalObject {
   void rotateLeft() {  
     rotated = true;
   }
+  
+  void rotateBack() {  
+      rotated = false;
+    }
   
   double area(){
     return (a*b).toDouble();

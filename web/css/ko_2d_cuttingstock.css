@@ -6,6 +6,7 @@ body {
   font-weight: normal;
   line-height: 1.2em;
   margin: 15px;
+  padding-bottom: 40px;
 }
 
 h1, p {
@@ -23,4 +24,17 @@ h1, p {
 #sample_text_id {
   font-size: 12pt;
   text-align: center;
+}
+
+
+#canvas {
+  width: 100%;
+}
+
+#cuttingStock {
+  width: 100%;
+}
+
+#log {
+  display:none;
 }

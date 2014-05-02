@@ -10,7 +10,11 @@ class Square implements GraphicalObject {
   get height => width;
   
   void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]) {
-    context.fillStyle = objectColor;
+    if(bordered)
+      context.fillStyle = solutionColor;
+    else
+      context.fillStyle = objectColor;
+    
     int ba;
     if(bordered)
       ba = a - 1;
@@ -20,6 +24,7 @@ class Square implements GraphicalObject {
     if(bordered){
       context.beginPath();
       context.rect(xpos, ypos, ba, ba);
+      context.strokeStyle = border;
       context.stroke();
       context.closePath();
     }

@@ -6,6 +6,7 @@ import 'dart:math' as Math;
 import '../CanvasHelper.dart';
 
 import '../Graphics.dart' as GR;
+import 'Cut.dart';
 
 class CuttingStock {  
   static int offset = 10;
@@ -38,59 +39,103 @@ class CuttingStock {
   int _bigger(GR.GraphicalObject a, GR.GraphicalObject b) {
     if (a.width < b.width)
       return 1;
-    if (a.width == b.width)
-      return 0;
+    if (a.width == b.width) {
+      if(a.area() < b.area())
+        return 1;
+      if(a.area() == b.area())
+        return 0;
+      else
+        return -1;
+    }
     else
       return -1;
   }
   
-  void draw(CanvasHelper ch) {
+  void solve(CanvasHelper ch) {
+//    Map<double, Cut> cuts = new HashMap();
+    List<Cut> cuts = new List();
+    bool suitable = false;
+    area = .0;
+    unusedArea = .0;
     _ch = ch;
     _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
-    while(!queue.isEmpty) {   
+    while(!queue.isEmpty) { 
+      suitable = false;
       GR.GraphicalObject processed = queue.removeFirst();
       
       if(processed is GR.RotatableGraphicalObject) 
               processed.rotateLeft();
+
+      cuts.sort();
       
-      if(currentWidth+processed.width >= _width) {
-            currentHeight += max;
-            
-            /*if(currentHeight >= height) {
-              spaces++;
-              currentHeight = 0; 
-              absoluteWidth += width+offset;
-              absoluteHeight = offset;
-              drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
-            }*/
-            
-            currentWidth = 0;
-            max = 0;
-     }
-      
-      if(currentHeight+processed.height >= _height) {
-                    spaces++;
-                    currentHeight = 0; 
-                    absoluteWidth += _width+offset;
-                    if(absoluteWidth+_width > ch.canvas.width) {
-                      absoluteWidth = offset; 
-                      absoluteHeight = absoluteHeight+_height+offset; 
-                    }
-                    _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
-                    currentWidth = 0;
-                    max = 0;
-     }
-      
-      //canvas height solution
+      var ci = cuts.iterator;
+      while(ci.moveNext()) {
+        //print(ci.current.area().toString());
+        if(ci.current.isSuitable(processed.area().toDouble(), processed.width.toDouble(), processed.height.toDouble())){
+          Cut cut = ci.current; 
+          processed.draw(ch.context, cut.x.toInt(), cut.y.toInt(), true);
+          cut.x += processed.width;
+          cut.width -= processed.width;
           
-      max = Math.max(max, processed.height); 
+          suitable = true;
+          break;
+        }
+      }
       
-      processed.draw(ch.context, absoluteWidth+currentWidth, absoluteHeight+currentHeight, true);
+      if(!suitable) { 
+          //if(currentWidth+processed.width >= _width) {
+                currentHeight += max;
+                
+                /*if(currentHeight >= height) {
+                  spaces++;
+                  currentHeight = 0; 
+                  absoluteWidth += width+offset;
+                  absoluteHeight = offset;
+                  drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
+                }*/
+                
+                currentWidth = 0;
+                max = 0;
+         //}
+          
+          if(currentHeight+processed.height >= _height) {
+              spaces++;
+              
+              addCut(ch.context, cuts, absoluteWidth.toDouble(), absoluteHeight+currentHeight.toDouble(), _width.toDouble(), _height-currentHeight.toDouble());
+              
+              currentHeight = 0; 
+              absoluteWidth += _width+offset;
+              if(absoluteWidth+_width > ch.canvas.width) {
+                absoluteWidth = offset; 
+                absoluteHeight = absoluteHeight+_height+offset; 
+              }
+              _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
+              currentWidth = 0;
+              max = 0;
+         }
+          
+          max = Math.max(max, processed.height); 
+          
+          processed.draw(ch.context, absoluteWidth+currentWidth, absoluteHeight+currentHeight, true);
+          
+          currentWidth += processed.width;
+          
+          addCut(ch.context, cuts, absoluteWidth+currentWidth.toDouble(), absoluteHeight+currentHeight.toDouble(), _width-currentWidth.toDouble(), processed.height.toDouble());    
+      }
+      
       area += processed.area();
       unusedArea += processed.unusedArea();
       //todo openedArea (area of opened cuts)
-      currentWidth += processed.width;
+          
+      if(processed is GR.RotatableGraphicalObject) 
+        processed.rotateBack();
     }
+  }
+  
+  void addCut(CanvasRenderingContext2D context, List cuts, double x, double y, double width, double height){
+    Cut c = new Cut(x, y, width, height);
+    //c.draw(context);
+    cuts.add(c);
   }
   
   void set width(int x){
@@ -107,23 +152,21 @@ class CuttingStock {
     defaultValues();
     addObjects(_objects);
     _ch.clear();
-    draw(_ch);
+    solve(_ch);
     stats(_de);
   }
   
   void stats(DivElement de) {
     _de = de;
-    de.text = "Spaces: "+spaces.toString()+", area: "+area.toStringAsFixed(2)+", unused area: "+unusedArea.toStringAsFixed(2)+" unused%: "+((unusedArea/area)*100).toStringAsFixed(1)+"%";
+    de.innerHtml = "Spaces: <b>"+spaces.toString()+"</b>, area: <b>"+area.toStringAsFixed(2)+"</b>, unsable area: <b>"+unusedArea.toStringAsFixed(2)+"</b> unusable: <b>"+((unusedArea/area)*100).toStringAsFixed(1)+"%</b>";
   }
       
   void _drawBoundingRect(CanvasRenderingContext2D context,int x, int y) {        
      context.beginPath();
      context.rect(x-1, y-1, _width+2, _height+2);
-     
-     //todo barvi cuty
-     
-     context.fillStyle = 'red';
-     context.fill();
+//     context.fillStyle = 'red';
+//     context.fill();
+     context.strokeStyle = 'black';
      context.stroke();
      context.closePath();
   }

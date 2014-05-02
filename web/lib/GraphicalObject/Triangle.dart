@@ -16,12 +16,17 @@ class Triangle implements RotatableGraphicalObject {
   
   void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]) {
     context.moveTo(xpos, ypos);
-    context.fillStyle = boundingColor;
-    if(!rotated)
-      context.fillRect(xpos, ypos, a, v);
+    if(bordered) {
+      context.fillStyle = boundingColor;
+      if(!rotated)
+        context.fillRect(xpos, ypos, a, v);
+      else
+        context.fillRect(xpos, ypos, v, a);
+    }
+    if(bordered)
+      context.fillStyle = solutionColor;
     else
-      context.fillRect(xpos, ypos, v, a);
-    context.fillStyle = objectColor;
+      context.fillStyle = objectColor;
     context.beginPath();
     if(!rotated) {
       context.lineTo(xpos+a,ypos);
@@ -48,6 +53,10 @@ class Triangle implements RotatableGraphicalObject {
   void rotateLeft() {  
     rotated = true;
   }
+  
+  void rotateBack() {  
+      rotated = false;
+    }
   
   List _getSortedSides() {
     List elements = [a, b, c];

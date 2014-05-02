@@ -2,14 +2,16 @@ import 'dart:math';
 import 'Graphics.dart' as GR;
 
 class RandomObjectGenerator {
-  static int _maxSize = 50;
-  static int _minSize = 20;
-  static int _maxObjects = 20;
-  static int _minObjects = 5;
+  int _maxSize = 50;
+  int _minSize = 20;
+  int _maxObjects = 40;
+  int _minObjects = 10;
   
-  List ObjectStorage; 
+  List ObjectStorage;
   
-  RandomObjectGenerator(){
+  RandomObjectGenerator(this._minObjects, this._maxObjects, this._minSize, this._maxSize);
+  
+  void generate(){
     ObjectStorage = new List();
     
     var rng = new Random();

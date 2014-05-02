@@ -10,9 +10,14 @@ class Circle implements GraphicalObject {
     //print(r);
     context.moveTo(xpos+r, ypos+r);
     context.beginPath();
-    context.fillStyle = boundingColor;
-    context.fillRect(xpos, ypos, 2*r, 2*r);
-    context.fillStyle = objectColor;
+    if(bordered) {
+      context.fillStyle = boundingColor;
+      context.fillRect(xpos, ypos, 2*r, 2*r);
+    }
+    if(bordered)
+      context.fillStyle = solutionColor;
+    else
+      context.fillStyle = objectColor;
     context.arc(xpos+r, ypos+r, r, 0, 2*Math.PI);
     context.fill();
     context.closePath();
