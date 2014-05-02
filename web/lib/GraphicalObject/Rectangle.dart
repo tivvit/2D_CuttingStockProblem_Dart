@@ -9,10 +9,21 @@ class Rectangle implements GraphicalObject {
   get width => Math.max(a,b);
   get height => Math.min(a, b);
   
-  void draw(var context, int xpos, int ypos) {
-    context.fillStyle = 'green';
-    int max = Math.max(a,b), min = Math.min(a,b);
+  void draw(var context, int xpos, int ypos, [bool bordered = false]) {
+    context.fillStyle = objectColor;
+    int max = width, min = height;
+    if(bordered){
+      max--;
+      min--;
+    }
+      
     context.fillRect(xpos, ypos, max, min);
+    if(bordered){
+      context.beginPath();
+      context.rect(xpos, ypos, max, min);
+      context.stroke();
+      context.closePath();
+    }
   }
   
   String toString() {

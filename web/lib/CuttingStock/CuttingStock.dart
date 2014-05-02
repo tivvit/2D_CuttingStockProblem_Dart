@@ -38,7 +38,7 @@ class CuttingStock {
           }
           
       max = Math.max(max, processed.height); 
-      processed.draw(ch.context, width, height);
+      processed.draw(ch.context, width, height, true);
       width += processed.width;
     }
   }

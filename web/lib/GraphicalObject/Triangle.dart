@@ -13,11 +13,11 @@ class Triangle implements GraphicalObject {
     v = (c*b)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2));
   }
   
-  void draw(var context, int xpos, int ypos) {
+  void draw(var context, int xpos, int ypos, [bool bordered = false]) {
     context.moveTo(xpos, ypos);
-    context.fillStyle = '#E3E3E3';
+    context.fillStyle = boundingColor;
     context.fillRect(xpos, ypos, a, v);
-    context.fillStyle = 'green';
+    context.fillStyle = objectColor;
     context.beginPath();
     context.lineTo(xpos+a,ypos);
     context.lineTo(xpos+(Math.pow(c,2)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2))),ypos+v);

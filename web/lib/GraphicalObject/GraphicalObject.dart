@@ -1,7 +1,10 @@
 part of Graphics;
 
 abstract class GraphicalObject {
-  void draw(CanvasElement context, int xpos, int ypos);
+  String objectColor = 'green';
+  String boundingColor = '#E3E3E3';
+  
+  void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]);
   get width;
   get height;
 }
