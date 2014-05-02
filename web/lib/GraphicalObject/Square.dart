@@ -9,7 +9,7 @@ class Square implements GraphicalObject {
   get width => a;
   get height => width;
   
-  void draw(var context, int xpos, int ypos, [bool bordered = false]) {
+  void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]) {
     context.fillStyle = objectColor;
     int ba;
     if(bordered)
@@ -23,6 +23,14 @@ class Square implements GraphicalObject {
       context.stroke();
       context.closePath();
     }
+  }
+  
+  double area(){
+    return (a*a).toDouble();
+  }
+  
+  double unusedArea(){
+    return .0;
   }
   
   String toString() {

@@ -53,4 +53,6 @@ void reverseText(MouseEvent event) {
   CuttingStock cs = new CuttingStock();
   cs.addObjects(rog.ObjectStorage);
   cs.draw(csCanvas);
+  
+  querySelector("#stats").text = "Spaces: "+cs.spaces.toString()+", area: "+cs.area.toStringAsFixed(2)+", unused area: "+cs.unusedArea.toStringAsFixed(2)+" unused%: "+((cs.unusedArea/cs.area)*100).toStringAsFixed(1)+"%";
 }

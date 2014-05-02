@@ -18,6 +18,14 @@ class Circle implements GraphicalObject {
     context.closePath();
   }
   
+  double area(){
+    return (Math.PI*r*r).toDouble();
+  }
+  
+  double unusedArea(){
+    return ((4*r*r)-(Math.PI*r*r)).toDouble();
+  }
+  
   get width => 2*r;
   get height => width;
   

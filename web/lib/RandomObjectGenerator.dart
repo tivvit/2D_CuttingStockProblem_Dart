@@ -39,8 +39,8 @@ class RandomObjectGenerator {
   }
   
   GR.Rectangle generateRectangle() {
-      int a = RandomInt(_minSize, _maxSize);
-      int b = RandomInt(_minSize, _maxSize);
+      int a = RandomInt(_minSize, _maxSize ~/ 1.20);
+      int b = RandomInt((a *.8).toInt(), _maxSize);
       return new GR.Rectangle(a, b);
     }
   
@@ -52,7 +52,7 @@ class RandomObjectGenerator {
   GR.Triangle generateTriangle() {
       int a = RandomInt(_minSize, _maxSize);
       int b = RandomInt(_minSize, _maxSize);
-      int c = RandomInt(_minSize, a+b); //a+b to satisfy triangle nonquality
+      int c = RandomInt(_minSize, min((a+b),_maxSize)); //a+b to satisfy triangle nonquality
       return new GR.Triangle(a,b,c);
   }
   

@@ -4,6 +4,7 @@ class Triangle implements GraphicalObject {
   String name = "Triangle";
   int a,b,c;
   double v;
+  bool rotated = false;
   
   Triangle(this.a, this.b, this.c) {
     List sides = _getSortedSides();
@@ -13,17 +14,39 @@ class Triangle implements GraphicalObject {
     v = (c*b)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2));
   }
   
-  void draw(var context, int xpos, int ypos, [bool bordered = false]) {
+  void draw(CanvasRenderingContext2D context, int xpos, int ypos, [bool bordered = false]) {
     context.moveTo(xpos, ypos);
     context.fillStyle = boundingColor;
-    context.fillRect(xpos, ypos, a, v);
+    if(!rotated)
+      context.fillRect(xpos, ypos, a, v);
+    else
+      context.fillRect(xpos, ypos, v, a);
     context.fillStyle = objectColor;
     context.beginPath();
-    context.lineTo(xpos+a,ypos);
-    context.lineTo(xpos+(Math.pow(c,2)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2))),ypos+v);
-    context.lineTo(xpos,ypos);
+    if(!rotated) {
+      context.lineTo(xpos+a,ypos);
+      context.lineTo(xpos+(Math.pow(c,2)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2))),ypos+v);
+      context.lineTo(xpos,ypos);
+    }
+    else {
+      context.lineTo(xpos,ypos+a);
+      context.lineTo(xpos+v,ypos+(Math.pow(c,2)/Math.sqrt(Math.pow(c,2)+Math.pow(b,2))));
+      context.lineTo(xpos,ypos);
+    }
     context.fill();
     context.closePath();
+  }
+  
+  double area(){
+    return (.5*a*v).toDouble();
+  }
+  
+  double unusedArea(){
+    return (.5*a*v).toDouble();
+  }
+  
+  void rotateLeft() {  
+    rotated = true;
   }
   
   List _getSortedSides() {
@@ -42,8 +65,8 @@ class Triangle implements GraphicalObject {
       return -1;
   }
   
-  get width => a;
-  get height => v.toInt();
+  get width => !rotated ? a : v.toInt();
+  get height => !rotated ? v.toInt() : a;
   
   String toString() {
     return "Triangle: "+a.toString()+" "+b.toString()+" "+c.toString();
