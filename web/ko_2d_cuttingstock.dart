@@ -5,14 +5,60 @@ import 'lib/RandomObjectGenerator.dart';
 import 'lib/CanvasHelper.dart';
 import 'lib/CuttingStock/CuttingStock.dart';
 
+int width = 150;
+int height = 150;
+CuttingStock cs = new CuttingStock(width, height);
+  
 void main() {
   createNewProblem();
   
   querySelector("#refresh")
-      ..onClick.listen(createNewProblem);
+      ..onClick.listen(refresh);
+  
+  querySelectorAll("input.sizes")
+      ..onChange.listen(valueChange);
+  
 }
 
-void createNewProblem([MouseEvent event]) {
+void valueChange(Event event) {
+  InputElement ie = event.target;
+  if(int.parse(ie.value) is num) {
+    int i = int.parse(ie.value);
+    if(i > 50) {
+     if(ie.name == "width") {
+        cs.width = i;
+        width = i;
+     }
+     else {
+        cs.height = i;
+        height = i;
+     }
+    }
+    else {
+      window.alert("50 is minimum");
+      
+      if(ie.name == "width")
+            ie.value = width.toString();
+      else
+            ie.value = height.toString();
+    }
+  }
+  else {
+    window.alert("NaN");
+    cs.width = width;
+    cs.height = height;
+    if(ie.name == "width")
+      ie.value = width.toString();
+    else
+      ie.value = height.toString();
+  }    
+}
+
+void refresh(MouseEvent event) {
+  createNewProblem();
+}
+
+void createNewProblem() {
   var text = querySelector("#sample_text_id").text;
   var buffer = new StringBuffer();
   
@@ -51,9 +97,10 @@ void createNewProblem([MouseEvent event]) {
   CanvasHelper csCanvas = new CanvasHelper('#cuttingStock');
   csCanvas.clear();
   
-  CuttingStock cs = new CuttingStock();
+  cs.defaultValues();  
   cs.addObjects(rog.ObjectStorage);
   cs.draw(csCanvas);
   
-  querySelector("#stats").text = "Spaces: "+cs.spaces.toString()+", area: "+cs.area.toStringAsFixed(2)+", unused area: "+cs.unusedArea.toStringAsFixed(2)+" unused%: "+((cs.unusedArea/cs.area)*100).toStringAsFixed(1)+"%";
+  var a = querySelector("#stats");
+  cs.stats(a);
 }

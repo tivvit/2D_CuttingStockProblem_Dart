@@ -8,12 +8,27 @@ import '../CanvasHelper.dart';
 import '../Graphics.dart' as GR;
 
 class CuttingStock {  
-  static int width = 150, height = 150, offset = 10;
-  int currentWidth = 0, currentHeight = 0, max = 0, spaces = 1, absoluteWidth = offset, absoluteHeight = offset;
+  static int offset = 10;
+  int currentWidth = 0, currentHeight = 0, max = 0, spaces = 1, _width = 150, _height = 150, absoluteWidth = offset, absoluteHeight = offset;
   double area = .0, unusedArea = .0, openedArea = .0; 
   Queue<GR.GraphicalObject> queue = new Queue();
+  CanvasHelper _ch;
+  List _objects;
+  DivElement _de;
+  
+  CuttingStock(this._width, this._height);
+  
+  void defaultValues() {
+    currentWidth = 0;
+    currentHeight = 0;
+    max = 0;
+    spaces = 1;
+    absoluteWidth = offset;
+    absoluteHeight = offset;
+  }
   
   void addObjects(List objects) {
+    _objects = objects;
     objects.sort((a, b) => _bigger(a,b));
     for(int i = 0; i < objects.length-1;i++){
       queue.add(objects.elementAt(i));
@@ -30,6 +45,7 @@ class CuttingStock {
   }
   
   void draw(CanvasHelper ch) {
+    _ch = ch;
     _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
     while(!queue.isEmpty) {   
       GR.GraphicalObject processed = queue.removeFirst();
@@ -37,7 +53,7 @@ class CuttingStock {
       if(processed is GR.RotatableGraphicalObject) 
               processed.rotateLeft();
       
-      if(currentWidth+processed.width >= width) {
+      if(currentWidth+processed.width >= _width) {
             currentHeight += max;
             
             /*if(currentHeight >= height) {
@@ -52,10 +68,10 @@ class CuttingStock {
             max = 0;
      }
       
-      if(currentHeight+processed.height >= height) {
+      if(currentHeight+processed.height >= _height) {
                     spaces++;
                     currentHeight = 0; 
-                    absoluteWidth += width+offset;
+                    absoluteWidth += _width+offset;
                     absoluteHeight = offset;
                     _drawBoundingRect(ch.context, absoluteWidth, absoluteHeight);
                     currentWidth = 0;
@@ -74,9 +90,32 @@ class CuttingStock {
     }
   }
   
+  void set width(int x){
+    _width = x;
+    redraw();
+  } 
+  
+  void set height(int x){
+    _height = x;
+    redraw();
+  } 
+  
+  void redraw() {
+    defaultValues();
+    addObjects(_objects);
+    _ch.clear();
+    draw(_ch);
+    stats(_de);
+  }
+  
+  void stats(DivElement de) {
+    _de = de;
+    de.text = "Spaces: "+spaces.toString()+", area: "+area.toStringAsFixed(2)+", unused area: "+unusedArea.toStringAsFixed(2)+" unused%: "+((unusedArea/area)*100).toStringAsFixed(1)+"%";
+  }
+      
   void _drawBoundingRect(CanvasRenderingContext2D context,int x, int y) {        
      context.beginPath();
-     context.rect(x-1, y-1, width+2, height+2);
+     context.rect(x-1, y-1, _width+2, _height+2);
      
      //todo barvi cuty
      

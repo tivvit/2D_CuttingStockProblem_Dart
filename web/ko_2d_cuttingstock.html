@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>KO 2D CuttingStock</h1>
-  <div><a href="#" id="refresh">Refresh</a></div>
+  <div><a href="#" id="refresh">Generate</a></div>
   <script type="application/dart" src="ko_2d_cuttingstock.dart"></script>
   <script src="packages/browser/dart.js"></script>
   <canvas id="canvas" width="1000" height="500">Please use supported browser</canvas>
@@ -16,8 +16,8 @@
   <form action="http://www.google.com/search"
       method="GET"
       target="_blank">
-      <input type="number" name="width" />
-      <input type="number" name="height" />
+      Width: <input type="number" class="sizes" name="width" value="150" />
+      Height: <input type="number" class="sizes" name="height" value="150" />
   </form>
 
 <canvas id="cuttingStock" width="1000" height="500">Please use supported browser</canvas>
