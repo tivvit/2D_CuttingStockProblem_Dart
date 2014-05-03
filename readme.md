@@ -1,1 +1,1 @@
-(Running project)[http://tivvit.cz/cuttingstock]
+http://tivvit.cz/cuttingstock
