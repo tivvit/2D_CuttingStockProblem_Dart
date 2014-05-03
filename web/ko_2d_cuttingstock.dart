@@ -12,10 +12,7 @@ CuttingStock cs = new CuttingStock(width, height);
   
 void main() {
   createNewProblem();
-  
-//  querySelector("#refresh")
-//      ..onClick.listen(refresh);
-  
+ 
   querySelectorAll("input.sizes")
       ..onChange.listen(valueChange);
   
@@ -28,7 +25,7 @@ void settingsChange(Event event) {
   InputElement ie = event.target;
     try {
       int i = int.parse(ie.value);
-      if(i >= 1 && i <= 200) {
+      if(i >= 1 && i <= 1000) {
         bool ex = false;
          switch(ie.name) {
            case "minObjects":
@@ -129,15 +126,17 @@ void createNewProblem() {
   var text = querySelector("#sample_text_id").text;
   var buffer = new StringBuffer();
   
+  Stopwatch generateStopwatch = new Stopwatch()..start();
   RandomObjectGenerator rog = new RandomObjectGenerator(minObjects, maxObjects, minSize, maxSize);
   rog.generate();
+  int generateTime = generateStopwatch.elapsed.inMilliseconds;
   
-  rog.ObjectStorage.forEach(
-      (elem) => buffer..write(elem.toString())
-                      ..write(", ")
-  );
+//  rog.ObjectStorage.forEach(
+//      (elem) => buffer..write(elem.toString())
+//                      ..write(", ")
+//  );
 
-  querySelector("#sample_text_id").text = buffer.toString();
+//  querySelector("#sample_text_id").text = buffer.toString();
   
   CanvasHelper ch = new CanvasHelper('#canvas');
   ch.clear();
@@ -167,8 +166,12 @@ void createNewProblem() {
   
   cs.defaultValues();  
   cs.addObjects(rog.ObjectStorage);
+  Stopwatch solveStopwatch = new Stopwatch()..start();
   cs.solve(csCanvas);
+  int solveTime = solveStopwatch.elapsed.inMilliseconds;
   
-  var a = querySelector("#stats");
+  var a = querySelector("#times");
   cs.stats(a);
+  querySelector("#generate").text = generateTime.toString();
+  querySelector("#solve").text = solveTime.toString();
 }

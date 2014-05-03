@@ -31,10 +31,14 @@ class RandomObjectGenerator {
     for(int i = 0; i <  RandomInt(_minObjects, _maxObjects); i++){
       ObjectStorage.add(generateRectangle());
     }
+    
+    for(int i = 0; i <  RandomInt(_minObjects, _maxObjects); i++){
+      ObjectStorage.add(generatePoly());
+    }
   }
   
   
-  //Object Factory
+  //Object Factories
   GR.Square generateSquare() {
     int size = RandomInt(_minSize, _maxSize);
     return new GR.Square(size);
@@ -57,6 +61,15 @@ class RandomObjectGenerator {
       int c = RandomInt(_minSize, min((a+b),_maxSize)); //a+b to satisfy triangle nonquality
       return new GR.Triangle(a,b,c);
   }
+  
+  GR.PolyObject generatePoly() {
+        int a = RandomInt(_minSize, _maxSize ~/ 2);
+        int b = RandomInt(_minSize+10, _maxSize);
+        int c = RandomInt(_minSize, _maxSize ~/ 2);
+        int d = RandomInt(10, b);
+        int e = RandomInt(0, b-d);
+        return new GR.PolyObject(a,b,c,d,e);
+    }
   
   int RandomInt(int min, int max) {
     var rng = new Random();

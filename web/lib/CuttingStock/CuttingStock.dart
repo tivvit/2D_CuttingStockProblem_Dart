@@ -63,8 +63,10 @@ class CuttingStock {
       suitable = false;
       GR.GraphicalObject processed = queue.removeFirst();
       
-      if(processed is GR.RotatableGraphicalObject) 
-              processed.rotateLeft();
+      if(processed is GR.RotatableGraphicalObject) {
+        if(processed.width > processed.height)
+          processed.rotateLeft();
+      }
 
       cuts.sort();
       
@@ -149,11 +151,14 @@ class CuttingStock {
   } 
   
   void redraw() {
+    Stopwatch solveStopwatch = new Stopwatch()..start();
     defaultValues();
     addObjects(_objects);
     _ch.clear();
     solve(_ch);
     stats(_de);
+    int solveTime = solveStopwatch.elapsed.inMilliseconds;
+    querySelector("#solve").text = solveTime.toString();
   }
   
   void stats(DivElement de) {
